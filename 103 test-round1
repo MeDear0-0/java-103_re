@@ -1,0 +1,228 @@
+1. Create a "Record999Keeper<K,V>" interface in "keeping999" package
+   This interface stores key-value pairs (K,V), like the "Map" interface
+   but the classes that implements this interface should not allow
+   "null" on keys and values. This interface contains the following
+   public methods.
+1.1 a "size" method that does not receive any argument
+    but returns an "int". This method returns the number of
+    key-value pairs that it stores.
+1.2 a "record" method that receives two input arguments:
+    "k" of type "K" and "v" of type "V" respectively,
+    and returns a "boolean". This method stores the key-value pair.
+    If success, it returns "true". Otherwise, it returns "false".
+1.3 a "containsKey" method that receives an input argument:
+    "k" of type "K" and returns a "boolean".
+    This method checks if it contains the key "k" or not.
+1.4 a "contains" method that receives two input arguments:
+    "k" of type "K" and "v" of type "V" respectively,
+    and returns a "boolean".
+    This method checks if it contains the key-value pair (k,v) or not.
+1.5 an "update" method that receives two input arguments:
+    "k" of type "K" and "v" of type "V" respectively,
+    and returns a "V".
+    This method checks if it contains the key "k" or not.
+    If no, it returns "null".
+    Otherwise, it replaces the old value "V"
+    with the new value "V" and returns the old value "V".
+1.6 a "retrieve" method that receives an input argument:
+    "k" of type "K" and returns a "V".
+    This method returns the value "V" that is paired with the key "k".
+    However, if it does not store this "k", it returns "null" instead.
+1.7 an "erase" method that receives an input argument:
+    "k" of type "K" and returns a "V".
+    This method is like the previous method
+    but it also removes the key-value pair from the storage.
+ 
+// functional programming part //
+1.8 a "findKey" method that receives a "predicate" of type "Predicate<K>"
+    and returns a "K".
+    This method uses the "predicate" to retrieve and return the "K"
+    if it finds a key that matches the "predicate".
+1.9 a "stream" method that does not receive any argument.
+    This method returns a stream of type "Stream<Map.Entry<K,V>>".
+ 
+2. In the "keeping999" package,
+   create a public abstract class named "NonNull999Keeper<K,V>"
+   that implements the "Record999Keeper<K,V> interface.
+   This class contains the following methods.
+2.1 an abstract protected "save" method that receives two arguments:
+    "k" of type "K" and "v" of type "V" respectively, and returns void.
+    This method must be overridden by its concrete subclasses
+    to store the key-value pair (k,v) in its storage.
+2.2 an @Override public final "record" method that receives
+    two input arguments: "k" of type "K" and "v" of type "V" respectively,
+    and returns a "boolean". This method stores the key-value pair.
+    If success, it returns "true". Otherwise, it returns "false".
+    This method returns "false" if "k" is "null" or "v" is "null",
+    or it has already "containsKey" "k" in its storage.
+    Otherwise, it calls the "save" method and returns "true".
+2.3 an abstract protected "replace" method that receives two arguments:
+    "k" of type "K" and "v" of type "V" respectively, and returns "V".
+    This method must be overridden by its concrete subclasses
+    to replace the old value "V" (that is paired with the key "k")
+    with the new value "v" and returns the old value "V".
+2.4 an @Override public final "update" method that receives
+    two input arguments: "k" of type "K" and "v" of type "V" respectively,
+    and returns a "V".
+    This method returns "null" if "k" is "null" or "v" is "null",
+    or it does not "containsKey" "k" in its storage.
+    Otherwise, it calls the "replace" method
+    and returns the return value from the "replace" method.
+ 
+3. In the "keeping999" package,
+   create a public "Real999Keeper<K,V>" class that extends
+   the "NonNull999Keeper<K,V>" class.
+   This class contains the following field and methods.
+3.1 a private final "notebook999" field of type "Map<K.V>".
+3.2 a public empty constructor that
+    initializes "notebook999" to a new HashMap.
+3.3 an @Override public "size" method that returns
+    the size of the "notebook999" which is a Map.
+3.4 an @Override public "containsKey" method
+    that receives a "k" of type "K".
+    this method check if the "notebook999" (Map)
+    "containsKey" "k" or not, and returns the result.
+3.5 an @Override public "contains" method
+    that receives two input arguments:
+    "k" of type "K" and "v" of type "V" respectively,
+    and returns a "boolean".
+    This method checks if it contains the key-value pair (k,v) or not.
+3.6 an @Override protected "save" method that receives
+    two input arguments: "k" of type "K" and "v" of type "V" respectively,
+    and returns void.
+    This method stores the key-value pair (k,v) in the "notebook999" (Map).
+3.7 an @Override protected "replace" method that receives
+    two input arguments: "k" of type "K" and "v" of type "V" respectively,
+    and returns a "V".
+    For the key "k", this method replaces the old value "V"
+    with the new value "v" in the "notebook999" (Map)
+    and the old value "V".
+3.8 an @Override public "retrieve" method that receives
+    an argument "k" of type "K" and returns a "V".
+    This method gets the value "V" that is mapped with the key "k"
+    in the "notebook999" (Map) and returns the result.
+3.9 an @Override public "erase" method that receives
+    an argument "k" of type "K" and returns a "V".
+    This method gets the value "V" that is mapped with the key "k"
+    in the "notebook999" (Map), remove this key-value(k,v) pair
+    from the "notebook999", and returns the value "V".
+ 
+// functional programming part //
+3.10 a public constructor that receives a "mapSupplier"
+     of type "Supplier<Map<K,V>>.
+     This method uses the "mapSupplier"
+     to initialize the value of the "notebook999" (Map).
+3.11 an @Override public "findKey" method that receives
+     a "keyPredicate" of type "Predicate<K>" and return a "K".
+     This method uses a "stream" on the key set of the "notebook999"
+     to find a key that matches the "keyPredicate".
+3.12 an @Override public "stream" method.
+     This method returns the stream on the entry set of the "notebook999".
+ 
+4. Given "Employee" class and "Asset" class in the "company" package,
+   create a public "AssetSystem999" class in the same package.
+   This class stores the information about the asset holder.
+   It uses "Record999Keeper<K,V>" to to store key-value pairs of
+   assets and employee to note that which asset is held by which employee.
+   This class contains the following field and methods.
+4.1 a private final "keeper999" field
+    of type "Record999Keeper<Asset,Employee>"
+4.2 an empty constructor that
+    initializes the value of "keeper999" to a new "Real999Keeper".
+4.3 a public "register" method that receives two arguments:
+    an "a" of type "Asset" and an "e" of type "Employee",
+    and returns a "boolean".
+    This method sends (calls) the "record" message (method)
+    with "a" and "e" (parameters) respectively to the "keeper999".
+4.3 a public "getHolder" method that receives an "a" of type "Asset"
+    and returns an "Employee" who holds that "a" asset.
+    It returns "null" if no one holds the asset.
+4.4 a public "transfer" method that receives three arguments:
+    (1) an "a" of type "Asset"
+    (2) a "from" of type "Employee"
+    (3) a "to" of type "Employee",
+    and returns a "boolean".
+    This method returns "false" if any argument is null,
+    or the "a" asset is not held by the "from" employee.
+    Otherwise, this method calls the "update" method on the "keeper999"
+    with the "a" asset and the "to" employee, and returns "true".
+4.5 a public "unregister" method that receives two arguments:
+    an "a" of type "Asset" and an "e" of type "Employee",
+    and returns a "boolean".
+    This method returns "false" if any argument is null,
+    or the "a" asset is not held by the "e" employee.
+    Otherwise, this method calls the "erase" method on the "keeper999"
+    with the "a" asset and returns "true".
+ 
+// functional programming part //
+4.6 a public contructor that receives a "keeperSupplier"
+    of type "Supplier<RecordKeeper<Asset,Employee>>".
+    This method uses the "keeperSupplier"
+    to initializes the value of the "keeper999".
+4.7 a public constructor that receives two arguments:
+    (1) a "keeperFunction" of type
+        "Function<Map<Asset,Employee>,RecordKeeper<Asset,Employee>>"
+    (2) a "mapSupplier" of type "Supplier<Map<Asset,Employee>>".
+    This method uses the "keeperFunction"
+    to initialize the value of the "keeper999" and
+    use the "mapSupplier" to initializes
+    the value of the map in the "keeper999".
+ 
+// Employee class ===============================================
+ 
+package company;
+ 
+public class Employee {
+   private static int nextId=0;
+   private final int id;
+   private String name;
+   private double salary;
+   
+   public Employee(String name, double salary) {
+      if (name == null || salary <= 0.0) throw new IllegalArgumentException();
+      id = nextId++;
+this.name = name;
+      this.salary = salary;
+   }
+ 
+   public int getId() { return id; }
+   public String getName() { return name; }
+   public double getSalary() { return salary; }
+   @Override public int hashCode() { return id; }
+   @Override public boolean equals(Object obj) { return this == obj; }
+ 
+   @Override
+   public String toString() {
+      return "Asset{" + "code=" + id + ", name=" + name + ", salary=" + salary + '}';
+   }
+}
+ 
+// Asset class ===============================================
+package company;
+ 
+public class Asset {
+   private static int nextCode=0;
+   private final int code;
+   private final String name;
+   private final double price;
+   
+   public Asset(String name, double price) {
+      if (name == null || price <= 0.0) throw new IllegalArgumentException();
+      code = nextCode++;
+this.name = name;
+      this.price = price;
+   }
+ 
+   public int getCode() { return code; }
+   public String getName() { return name; }
+   public double getPrice() { return price; }
+   @Override public int hashCode() { return code; }
+   @Override public boolean equals(Object obj) { return this == obj; }
+ 
+   @Override
+   public String toString() {
+      return "Asset{" + "code=" + code + ", name=" + name + ", price=" + price + '}';
+   }
+}
+*/
+has context menu
